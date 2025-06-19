@@ -7,7 +7,7 @@ namespace JakDojadeMCP.Server.Converters;
 public class RouteTypeConverter : JsonConverter<RouteType>
 {
     public override RouteType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        => new(reader.GetString()!); // Or match against known instances
+        => new(reader.GetString()!);
 
     public override void Write(Utf8JsonWriter writer, RouteType value, JsonSerializerOptions options)
         => writer.WriteStringValue(value.ToString());
