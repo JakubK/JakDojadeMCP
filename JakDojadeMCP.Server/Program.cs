@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var transportMode = Environment.GetEnvironmentVariable("TransportMode") ?? "sse";
+var transportMode = Environment.GetEnvironmentVariable("TransportMode") ?? "stdio";
 var publicKey = Environment.GetEnvironmentVariable("PublicKey") ?? string.Empty;
 var secretKey = Environment.GetEnvironmentVariable("SecretKey") ?? string.Empty;
 
@@ -37,7 +37,7 @@ void ConfigureCommonServices(IServiceCollection services)
     });
 }
 
-if (transportMode == "sse")
+if (transportMode == "stdio")
 {
     var builder = Host.CreateApplicationBuilder(args);
     ConfigureCommonServices(builder.Services);
