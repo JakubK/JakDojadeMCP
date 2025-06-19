@@ -41,7 +41,7 @@ public class JakDojadeResources
         [Description("Latitude of starting point")] string startPointLat,
         [Description("Longitude of end point")] string endPointLon,
         [Description("Latitude of end point")] string endPointLat,
-        [Description("Agglomeration also known as normalizedName")] string? agglomeration,
+        [Description("Agglomeration also known as normalizedName. Skipped will use agglomeration closest to the start point")] string? agglomeration,
         [Description("Date to start search in DD.MM.YY format. Omitted will use today as a date")] string? date,
         [Description("Hour to start search in HH:MM format. Omitted will use now as hour")] string? hour,
         [Description("Mode of routing. Allowed values: conveniet,optimal,hurry. Will use 'optimal' if omitted")] string? type,
