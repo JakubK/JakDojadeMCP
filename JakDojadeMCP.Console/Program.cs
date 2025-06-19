@@ -10,12 +10,10 @@ var client = new JakDojadeClient(new HttpClient
 
 
 var cities = await client.GetCitiesAsync();
-var citiesList = cities.ToList();
 
 var schedules = await client.GetScheduleTableAsync(1, "7", "ROSR-01");
 
 var locations = await client.GetLocationsAsync("POZNAN", "rondo");
-var locationsList = locations.ToList();
 
 
 var routes = await client.GetRoutesAsync(
@@ -43,8 +41,5 @@ var routes = await client.GetRoutesAsync(
         null
         )
     );
-
-var routesList = routes.ToList();
-
 
 Console.WriteLine("END");

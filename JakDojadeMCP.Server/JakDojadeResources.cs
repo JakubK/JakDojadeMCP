@@ -88,7 +88,7 @@ public class JakDojadeResources
         );
         
         var obj = await client.GetRoutesAsync(findRoute);
-        var descriptions = obj.Select(x => x.Description);
+        var descriptions = obj.Routes.Select(x => x.Description);
         return JsonSerializer.Serialize(descriptions);
     }
 }

@@ -20,7 +20,7 @@ public class JakDojadeClient(HttpClient httpClient)
         return deserialized?.Cities ?? [];
     }
 
-    public async Task<IEnumerable<Location>> GetLocationsAsync(string agglomeration, string searchPhrase)
+    public async Task<GetLocationsResponseDto?> GetLocationsAsync(string agglomeration, string searchPhrase)
     {
         var endpoint = $"/api/rest/v1/locationmatcher?agg={agglomeration}&text={searchPhrase}";
         var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
@@ -29,9 +29,7 @@ public class JakDojadeClient(HttpClient httpClient)
         response.EnsureSuccessStatusCode();
         
         var responseBody = await response.Content.ReadAsStreamAsync();
-        var deserialized = await JsonSerializer.DeserializeAsync<GetLocationsResponseDto>(responseBody, JsonSerializerOptions.Web);
-
-        return deserialized?.Locations ?? [];
+        return await JsonSerializer.DeserializeAsync<GetLocationsResponseDto>(responseBody, JsonSerializerOptions.Web);
     }
 
     public async Task<ScheduleTable?> GetScheduleTableAsync(int @operator, string? lineSymbol, string stopCode)
@@ -48,7 +46,7 @@ public class JakDojadeClient(HttpClient httpClient)
         return await JsonSerializer.DeserializeAsync<ScheduleTable>(responseBody);
     }
 
-    public async Task<IEnumerable<Route>> GetRoutesAsync(FindRoute findRoute)
+    public async Task<GetRoutesResponseDto?> GetRoutesAsync(FindRoute findRoute)
     {
         var query = QueryStringBuilder.ToQueryString(findRoute);
         var endpoint = $"/api/rest/v2/routes?{query}";
@@ -58,8 +56,6 @@ public class JakDojadeClient(HttpClient httpClient)
         response.EnsureSuccessStatusCode();
         
         var responseBody = await response.Content.ReadAsStreamAsync();
-        var deserialized = await JsonSerializer.DeserializeAsync<GetRoutesResponseDto>(responseBody, JsonSerializerOptions.Web);
-
-        return deserialized?.Routes ?? [];
+        return await JsonSerializer.DeserializeAsync<GetRoutesResponseDto>(responseBody, JsonSerializerOptions.Web);
     }
 }
