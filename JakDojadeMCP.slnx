@@ -1,4 +1,9 @@
 <Solution>
   <Project Path="JakDojadeMCP.Console\JakDojadeMCP.Console.csproj" Type="Classic C#" />
   <Project Path="JakDojadeMCP.Server\JakDojadeMCP.Server.csproj" Type="Classic C#" />
+  <Folder Name="Related files">
+    <File Path=".gitignore"/>
+    <File Path="Dockerfile"/>
+    <File Path="README.md"/>
+  </Folder>
 </Solution>
