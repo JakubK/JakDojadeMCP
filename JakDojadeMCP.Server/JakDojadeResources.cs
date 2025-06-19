@@ -29,7 +29,7 @@ public class JakDojadeResources
     public static async Task<string> ListDeparturesAsync(JakDojadeClient client,
         [Description("Required number which is identifying the operator")] int operatorId,
         [Description("Required stopCode which is identifying the stop")] string stopCode,
-        [Description("Optional line symbol. Omitted will return all departures from stop")] string lineSymbol)
+        [Description("Optional line symbol. Omitted will return all departures from stop")] string? lineSymbol)
     {
         var obj = await client.GetScheduleTableAsync(operatorId, lineSymbol, stopCode);
         return JsonSerializer.Serialize(obj);
