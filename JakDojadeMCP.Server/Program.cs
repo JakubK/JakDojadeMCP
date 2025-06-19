@@ -2,28 +2,53 @@
 using System.Text;
 using JakDojadeMCP.Server;
 using JakDojadeMCP.Server.Clients;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var builder = Host.CreateApplicationBuilder(args);
+var transportMode = Environment.GetEnvironmentVariable("TransportMode") ?? "sse";
+var publicKey = Environment.GetEnvironmentVariable("PublicKey") ?? string.Empty;
+var secretKey = Environment.GetEnvironmentVariable("SecretKey") ?? string.Empty;
 
-builder.Services.AddMcpServer()
-    .WithStdioServerTransport()
-    .WithPrompts<JakDojadePrompts>()
-    .WithResources<JakDojadeResources>();
-
-string authToken = string.Empty;
-
-if (args.Length >= 2) {
-    var publicKey = args[0];
-    var secretKey = args[1];
-    authToken = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{publicKey}:{secretKey}"));
+string? GetAuthToken()
+{
+    if (!string.IsNullOrEmpty(publicKey))
+        return Convert.ToBase64String(Encoding.ASCII.GetBytes($"{publicKey}:{secretKey}"));
+    return null;
 }
 
-builder.Services.AddHttpClient<JakDojadeClient>(x =>
+void ConfigureCommonServices(IServiceCollection services)
 {
-    x.BaseAddress = new Uri("https://jakdojade.pl");
-    x.DefaultRequestHeaders.Authorization = string.IsNullOrEmpty(authToken) ? null : new AuthenticationHeaderValue("Basic", authToken);
-});
+    services.AddMcpServer()
+        .WithStdioServerTransport()
+        .WithHttpTransport()
+        .WithPrompts<JakDojadePrompts>()
+        .WithResources<JakDojadeResources>();
 
-await builder.Build().RunAsync();
+    string? authToken = GetAuthToken();
+    
+    services.AddHttpClient<JakDojadeClient>(client =>
+    {
+        client.BaseAddress = new Uri("https://jakdojade.pl");
+        if (!string.IsNullOrEmpty(authToken))
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+        }
+    });
+}
+
+if (transportMode == "sse")
+{
+    var builder = Host.CreateApplicationBuilder(args);
+    ConfigureCommonServices(builder.Services);
+    var app = builder.Build();
+    await app.RunAsync();
+}
+else
+{
+    var builder = WebApplication.CreateBuilder(args);
+    ConfigureCommonServices(builder.Services);
+    var app = builder.Build();
+    app.MapMcp();
+    await app.RunAsync();
+}
