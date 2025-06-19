@@ -1,5 +1,9 @@
-﻿namespace JakDojadeMCP.Server.Models;
+﻿using System.Text.Json.Serialization;
+using JakDojadeMCP.Server.Converters;
 
+namespace JakDojadeMCP.Server.Models;
+
+[JsonConverter(typeof(StopTypeConverter))]
 public sealed class StopType(string value)
 {
     private string Value { get; } = value;

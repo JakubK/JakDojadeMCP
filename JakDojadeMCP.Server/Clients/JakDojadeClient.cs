@@ -11,9 +11,12 @@ public class JakDojadeClient(HttpClient httpClient)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/rest/v1/cities");
         var response = await httpClient.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+        
         var responseBody = await response.Content.ReadAsStreamAsync();
         
-        var deserialized = await JsonSerializer.DeserializeAsync<GetCitiesResponseDto>(responseBody);
+        var deserialized = await JsonSerializer.DeserializeAsync<GetCitiesResponseDto>(responseBody, JsonSerializerOptions.Web);
         return deserialized?.Cities ?? [];
     }
 
@@ -22,8 +25,11 @@ public class JakDojadeClient(HttpClient httpClient)
         var endpoint = $"/api/rest/v1/locationmatcher?agg={agglomeration}&text={searchPhrase}";
         var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
         var response = await httpClient.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+        
         var responseBody = await response.Content.ReadAsStreamAsync();
-        var deserialized = await JsonSerializer.DeserializeAsync<GetLocationsResponseDto>(responseBody);
+        var deserialized = await JsonSerializer.DeserializeAsync<GetLocationsResponseDto>(responseBody, JsonSerializerOptions.Web);
 
         return deserialized?.Locations ?? [];
     }
@@ -35,6 +41,9 @@ public class JakDojadeClient(HttpClient httpClient)
         
         var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
         var response = await httpClient.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+
         var responseBody = await response.Content.ReadAsStreamAsync();
         return await JsonSerializer.DeserializeAsync<ScheduleTable>(responseBody);
     }
@@ -45,8 +54,11 @@ public class JakDojadeClient(HttpClient httpClient)
         var endpoint = $"/api/rest/v2/routes?{query}";
         var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
         var response = await httpClient.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+        
         var responseBody = await response.Content.ReadAsStreamAsync();
-        var deserialized = await JsonSerializer.DeserializeAsync<GetRoutesResponseDto>(responseBody);
+        var deserialized = await JsonSerializer.DeserializeAsync<GetRoutesResponseDto>(responseBody, JsonSerializerOptions.Web);
 
         return deserialized?.Routes ?? [];
     }
