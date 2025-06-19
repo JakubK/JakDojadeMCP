@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using JakDojadeMCP.Server;
 using JakDojadeMCP.Server.Clients;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddMcpServer()
-    .WithStdioServerTransport();
+    .WithStdioServerTransport()
+    .WithPrompts<JakDojadePrompts>()
+    .WithResources<JakDojadeResources>();
 
 string authToken = string.Empty;
 
