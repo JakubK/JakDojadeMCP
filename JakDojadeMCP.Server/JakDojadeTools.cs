@@ -40,8 +40,8 @@ public class JakDojadeTools
         [Description("Mode of routing. Allowed values: conveniet,optimal,hurry. Will use 'optimal' if omitted")] string? type = null,
         [Description("If routes with less changes should be preferred. Defaults to false if omitted")] bool? avoidChanges = null,
         [Description("If routes with less busses should be preferred. Defaults to false if omitted")] bool? avoidBuses = null,
-        [Description("Comma separated list of means of transport which should be prohibited. Allowed values are [bus, tram, subway, train, microbus, trolleybus, waterTram]. When omitted sets to empty string")] string? prohibitesVehicles = null,
-        [Description("Comma separated list of ids of operators which should be prohibited. When omitted sets to empty string")] string? prohibitesOperators = null,
+        [Description("Comma separated list of means of transport which should be prohibited. Allowed values are [bus, tram, subway, train, microbus, trolleybus, waterTram]. When omitted sets to empty string")] string? prohibitedVehicles = null,
+        [Description("Comma separated list of ids of operators which should be prohibited. When omitted sets to empty string")] string? prohibitedOperators = null,
         [Description("If express lines should be omitted. Defaults to false if omitted")] bool? avoidExpresses = null,
         [Description("If zone lines should be avoided. Defaults to false if omitted")] bool? avoidZonal = null,
         [Description("If routes with only low floor vehicles should be accepted. Defaults to false if omitted")] bool? onlyLowFloor = null,
@@ -50,12 +50,6 @@ public class JakDojadeTools
         [Description("The amount of routes to find. Upper bound is 3. Defaults to 1 if skipped")] int? routeCount = 1
     )
     {
-        var proVehiclesParam = prohibitesVehicles == null ? [] : prohibitesVehicles.Split(',');
-        var proOperatorsParam = prohibitesOperators == null ? [] : prohibitesOperators.Split(',');
-        var proLinesParam = prohibitedLines == null ? [] : prohibitedLines.Split(',');
-        
-        var preLinesParam = preferLines == null ? [] : preferLines.Split(',');
-
         var findRoute = new FindRoute
         (
             StartPoint: new SimpleCoordinate(startPointLat, startPointLon),
@@ -63,17 +57,17 @@ public class JakDojadeTools
             Agglomeration: agglomeration,
             Date: date,
             Hour: hour,
-            Type: type == null ? null : new RouteType(type),
+            Type: type,
             AvoidChanges: avoidChanges,
             AvoidBuses: avoidBuses,
             AvoidExpresses: avoidExpresses,
             AvoidZonal: avoidZonal,
             OnlyLowFloor: onlyLowFloor,
             RoadsOn: null,
-            ProhibitedVehicles: proVehiclesParam,
-            ProhibitedOperators: proOperatorsParam,
-            ProhibitedLines: proLinesParam,
-            PreferLines: preLinesParam,
+            ProhibitedVehicles: prohibitedVehicles,
+            ProhibitedOperators: prohibitedOperators,
+            ProhibitedLines: prohibitedLines,
+            PreferLines: preferLines,
             Test: null,
             IsArrival: false,
             RouteCount: routeCount,

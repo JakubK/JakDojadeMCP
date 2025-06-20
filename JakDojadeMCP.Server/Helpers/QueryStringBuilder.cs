@@ -21,14 +21,14 @@ public static class QueryStringBuilder
             EncodeParam("test", obj.Test),
             EncodeParam("aac", obj.AvoidChanges),
             EncodeParam("aab", obj.AvoidBuses),
-            EncodeList("apv", obj.ProhibitedVehicles, ','),
-            EncodeList("apo", obj.ProhibitedOperators?.Cast<object>(), ','),
+            EncodeParam("apv", obj.ProhibitedVehicles),
+            EncodeParam("apo", obj.ProhibitedOperators),
             EncodeParam("aax", obj.AvoidExpresses),
             EncodeParam("aaz", obj.AvoidZonal),
             EncodeParam("aol", obj.OnlyLowFloor),
             EncodeParam("aro", obj.RoadsOn),
-            EncodeList("aal", obj.ProhibitedLines, ','),
-            EncodeList("apl", obj.PreferLines, ',')
+            EncodeParam("aal", obj.ProhibitedLines),
+            EncodeParam("apl", obj.PreferLines)
         }.Where(x => !string.IsNullOrEmpty(x));
         
         return string.Join("&", strings);
@@ -42,22 +42,5 @@ public static class QueryStringBuilder
         }
         
         return $"{key}={value}";
-    }
-
-    private static string EncodeList(string key, IEnumerable<object>? values, char separator)
-    {
-        if (values == null)
-        {
-            return string.Empty;
-        }
-        
-        var list = values.ToList();
-        
-        if (!list.Any())
-        {
-            return string.Empty;
-        }
-
-        return $"{key}={string.Join(separator, list)}";
     }
 }
