@@ -8,8 +8,8 @@ public static class QueryStringBuilder
     {
         var strings = new List<string>
         {
-            EncodeParam("fc", obj.StartPoint),
-            EncodeParam("tc", obj.EndPoint),
+            EncodeParam("fc", $"{obj.StartPointLatitude}:{obj.StartPointLongitude}"),
+            EncodeParam("tc", $"{obj.EndPointLatitude}:{obj.EndPointLongitude}"),
             EncodeParam("agg", obj.Agglomeration),
             EncodeParam("d", obj.Date),
             EncodeParam("h", obj.Hour),

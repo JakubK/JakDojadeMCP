@@ -1,7 +1,9 @@
 ﻿namespace JakDojadeMCP.Server.Models;
 
-public record FindRoute(SimpleCoordinate StartPoint,
-    SimpleCoordinate EndPoint,
+public record FindRoute(string StartPointLatitude,
+    string StartPointLongitude,
+    string EndPointLatitude,
+    string EndPointLongitude,
     string? Agglomeration,
     string? Date,
     string? Hour,

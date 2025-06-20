@@ -52,8 +52,10 @@ public class JakDojadeTools
     {
         var findRoute = new FindRoute
         (
-            StartPoint: new SimpleCoordinate(startPointLat, startPointLon),
-            EndPoint: new SimpleCoordinate(endPointLat, endPointLon),
+            StartPointLatitude: startPointLat,
+            StartPointLongitude: startPointLon,
+            EndPointLatitude: endPointLat,
+            EndPointLongitude: endPointLon,
             Agglomeration: agglomeration,
             Date: date,
             Hour: hour,

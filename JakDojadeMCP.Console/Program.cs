@@ -18,8 +18,8 @@ var locations = await client.GetLocationsAsync("POZNAN", "rondo");
 
 var routes = await client.GetRoutesAsync(
     new FindRoute(
-        new SimpleCoordinate("52.23232","21.01599"),
-        new SimpleCoordinate("52.26289", "20.98983"),
+        "52.23232","21.01599",
+        "52.26289", "20.98983",
         null,
         null,
         null,
