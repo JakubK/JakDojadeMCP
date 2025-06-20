@@ -9,7 +9,7 @@ namespace JakDojadeMCP.Server;
 [McpServerToolType]
 public class JakDojadeTools
 {
-    [McpServerTool(Name = "List locations"), Description("List locations by given searchphrase and agglomeration")]
+    [McpServerTool(Name = "list-locations"), Description("List locations by given searchphrase and agglomeration")]
     public static async Task<string> ListLocationsAsync(JakDojadeClient client,
         [Description("Agglomeration name")] string agglomeration,
         [Description("Search phrase for the location")] string searchPhrase)
@@ -18,7 +18,7 @@ public class JakDojadeTools
         return JsonSerializer.Serialize(locations);
     }
 
-    [McpServerTool(Name = "List Departures"), Description("List departures for given stopCode, lineSymbol and operatorId")]
+    [McpServerTool(Name = "list-departures"), Description("List departures for given stopCode, lineSymbol and operatorId")]
     public static async Task<string> ListDeparturesAsync(JakDojadeClient client,
         [Description("Required number which is identifying the operator")] int operatorId,
         [Description("Required stopCode which is identifying the stop")] string stopCode,
@@ -28,7 +28,7 @@ public class JakDojadeTools
         return JsonSerializer.Serialize(obj);
     }
     
-    [McpServerTool(Name = "Find route"), Description("Finds feasible route between start and end points. Accepts variety of configuration params")]
+    [McpServerTool(Name = "find-route"), Description("Finds feasible route between start and end points. Accepts variety of configuration params")]
     public static async Task<string> ListRoutesAsync(JakDojadeClient client,
         [Description("Longitude of starting point")] string startPointLon,
         [Description("Latitude of starting point")] string startPointLat,
