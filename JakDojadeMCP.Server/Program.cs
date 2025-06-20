@@ -5,6 +5,7 @@ using JakDojadeMCP.Server.Clients;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var transportMode = Environment.GetEnvironmentVariable("TransportMode") ?? "stdio";
 var publicKey = Environment.GetEnvironmentVariable("PublicKey") ?? string.Empty;
@@ -23,7 +24,8 @@ void ConfigureCommonServices(IServiceCollection services)
         .WithStdioServerTransport()
         .WithHttpTransport()
         .WithPrompts<JakDojadePrompts>()
-        .WithResources<JakDojadeResources>();
+        .WithResources<JakDojadeResources>()
+        .WithTools<JakDojadeTools>();
 
     string? authToken = GetAuthToken();
     
@@ -40,6 +42,11 @@ void ConfigureCommonServices(IServiceCollection services)
 if (transportMode == "stdio")
 {
     var builder = Host.CreateApplicationBuilder(args);
+    builder.Logging.AddConsole(consoleLogOptions =>
+    {
+        // Configure all logs to go to stderr
+        consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Trace;
+    });
     ConfigureCommonServices(builder.Services);
     var app = builder.Build();
     await app.RunAsync();
