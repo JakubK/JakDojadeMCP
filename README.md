@@ -51,9 +51,9 @@ docker run --rm -it -e PublicKey=xyz -e SecretKey=xyz jd-mcp
     "servers": {
         "my-mcp-server": {
             "type": "stdio",
-            "command": "dotnet",
+            "command": "docker",
             "args": [
-                "docker", "run", "--rm", "-it", "-e", "PublicKey=xyz", "-e", "SecretKey=xyz"
+                "run", "--rm", "-i", "-e", "PublicKey=xyz", "-e", "SecretKey=xyz", "jd-mcp"
             ]
         }
     }
