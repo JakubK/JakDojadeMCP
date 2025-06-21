@@ -9,7 +9,7 @@ namespace JakDojadeMCP.Server;
 [McpServerResourceType]
 public class JakDojadeResources
 {
-    [McpServerResource(UriTemplate = "jd://cities", MimeType = "text/plain"), Description("List all cities and their data such as operators and agglomeration names identified by normalizedName")]
+    [McpServerResource(UriTemplate = "jd://cities", MimeType = "text/plain"), Description("List all cities, their operators and agglomeration names identified by normalizedName")]
     public static async Task<ResourceContents> ListCitiesAsync(JakDojadeClient client)
     {
         var cities = await client.GetCitiesAsync();
