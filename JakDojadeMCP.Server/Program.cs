@@ -24,7 +24,6 @@ void ConfigureCommonServices(IServiceCollection services)
         .WithStdioServerTransport()
         .WithHttpTransport()
         .WithPrompts<JakDojadePrompts>()
-        .WithResources<JakDojadeResources>()
         .WithTools<JakDojadeTools>();
 
     string? authToken = GetAuthToken();

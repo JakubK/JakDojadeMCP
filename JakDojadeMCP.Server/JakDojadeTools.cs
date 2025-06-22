@@ -9,19 +9,26 @@ namespace JakDojadeMCP.Server;
 [McpServerToolType]
 public class JakDojadeTools
 {
-    [McpServerTool(Name = "list-locations"), Description("List locations by given searchPhrase and agglomeration. Agglomeration should be fetched first using jd://cities resource")]
+    [McpServerTool(Name = "list-cities"), Description("List all cities, their operators and agglomeration names identified by normalizedName")]
+    public static async Task<string> ListCitiesAsync(JakDojadeClient client)
+    {
+        var cities = await client.GetCitiesAsync();
+        return JsonSerializer.Serialize(cities);
+    }
+
+    [McpServerTool(Name = "list-locations"), Description("List locations by given searchPhrase and agglomeration. Agglomeration should be fetched first using list-cities tool")]
     public static async Task<string> ListLocationsAsync(JakDojadeClient client,
-        [Description("Agglomeration name")] string agglomeration,
+        [Description("Agglomeration name. If not provided directly, should be retrieved from list-cities tool")] string agglomeration,
         [Description("Search phrase for the location")] string searchPhrase)
     {
         var locations = await client.GetLocationsAsync(agglomeration, searchPhrase);
         return JsonSerializer.Serialize(locations);
     }
 
-    [McpServerTool(Name = "list-departures"), Description("List departures for given stopCode, lineSymbol and operatorId. stopCode can be obtained using list-locations and operatorId can be obtained from jd://cities resource")]
+    [McpServerTool(Name = "list-departures"), Description("List departures for given stopCode, lineSymbol and operatorId. stopCode can be obtained using list-locations and operatorId can be obtained from list-cities tool")]
     public static async Task<string> ListDeparturesAsync(JakDojadeClient client,
-        [Description("Required number which is identifying the operator")] int operatorId,
-        [Description("Required stopCode which is identifying the stop")] string stopCode,
+        [Description("Required number which is identifying the operator. Should be retrieved from list-cities tool")] int operatorId,
+        [Description("Required stopCode which is identifying the stop. Should be retrieved from list-locations tool")] string stopCode,
         [Description("Optional line symbol. Omitted will return all departures from stop")] string? lineSymbol)
     {
         var obj = await client.GetScheduleTableAsync(operatorId, lineSymbol, stopCode);
@@ -30,10 +37,10 @@ public class JakDojadeTools
     
     [McpServerTool(Name = "find-route"), Description("Finds feasible route between start and end points. Accepts variety of configuration params")]
     public static async Task<string> ListRoutesAsync(JakDojadeClient client,
-        [Description("Longitude of starting point")] string startPointLon,
-        [Description("Latitude of starting point")] string startPointLat,
-        [Description("Longitude of end point")] string endPointLon,
-        [Description("Latitude of end point")] string endPointLat,
+        [Description("Longitude of starting point. If not given directly, should be obtained via list-locations tool")] string startPointLon,
+        [Description("Latitude of starting point. If not given directly, should be obtained via list-locations tool")] string startPointLat,
+        [Description("Longitude of end point. If not given directly, should be obtained via list-locations tool")] string endPointLon,
+        [Description("Latitude of end point. If not given directly, should be obtained via list-locations tool")] string endPointLat,
         [Description("Agglomeration also known as normalizedName. Skipped will use agglomeration closest to the start point")] string? agglomeration = null,
         [Description("Date to start search in DD.MM.YY format. Omitted will use today as a date")] string? date = null,
         [Description("Hour to start search in HH:MM format. Omitted will use now as hour")] string? hour = null,

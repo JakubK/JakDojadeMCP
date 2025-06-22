@@ -1,8 +1,11 @@
 # JakDojade MCP Server
 
 My first attempt to MCP Server development.
-
 MCP Server for consuming JakDojade [API](https://docs.jakdojade.pl/restxml/rest/)
+
+It can be used to grant your LLM/Agent powers to answer questions regarding best routes (including special requirements like preferred means of transport, time and date), provide schedule tables, all using natural language.
+
+When combined with some external geolocation tool, it could provide even more accurate routing suggestions.
 
 ## Tools
 
@@ -10,11 +13,13 @@ MCP Server for consuming JakDojade [API](https://docs.jakdojade.pl/restxml/rest/
 
 - `list-departures` - Allows to see schedule table contents for given stop.
 
+- `list-cities` - Lists all supported cities, and operators associated with them
+
 - `find-route` - Finds route between 2 points given by their coordinates.
 
 ## Resources
 
-- cities - resource providing data from static endpoint which holds JSON with all supported agglomerations and transport operators associated with them
+No resources because vscode didnt want to use them even though they were accessible - everything moved to tools.
 
 ## Prompts
 
@@ -44,7 +49,7 @@ To access all API features, you should provide JakDojade API credentials
 docker run --rm -it -e PublicKey=xyz -e SecretKey=xyz jd-mcp
 ```
 
-### Example setup with mcp.json in vscode
+#### Example setup with mcp.json in vscode with MCP in Docker
 
 ```json
 {
@@ -54,6 +59,22 @@ docker run --rm -it -e PublicKey=xyz -e SecretKey=xyz jd-mcp
             "command": "docker",
             "args": [
                 "run", "--rm", "-i", "-e", "PublicKey=xyz", "-e", "SecretKey=xyz", "jd-mcp"
+            ]
+        }
+    }
+}
+```
+
+#### Example setup with mcp.json in vscode with MCP source code
+
+```json
+{
+    "servers": {
+        "my-mcp-server": {
+            "type": "stdio",
+            "command": "dotnet",
+            "args": [
+                "run", "--project", "JakDojadeMCP.Server/JakDojadeMCP.Server.csproj",
             ]
         }
     }
