@@ -9,7 +9,7 @@ namespace JakDojadeMCP.Server;
 [McpServerToolType]
 public class JakDojadeTools
 {
-    [McpServerTool(Name = "list-cities"), Description("List all cities, their operators and agglomeration names identified by normalizedName")]
+    [McpServerTool(Name = "list-cities"), Description("List all cities, their operators and agglomeration names")]
     public static async Task<string> ListCitiesAsync(JakDojadeClient client)
     {
         var jdCities = await client.GetCitiesAsync();
@@ -43,7 +43,7 @@ public class JakDojadeTools
         [Description("Latitude of starting point. If not given directly, should be obtained via list-locations tool")] string startPointLat,
         [Description("Longitude of end point. If not given directly, should be obtained via list-locations tool")] string endPointLon,
         [Description("Latitude of end point. If not given directly, should be obtained via list-locations tool")] string endPointLat,
-        [Description("Agglomeration also known as normalizedName. Skipped will use agglomeration closest to the start point")] string? agglomeration = null,
+        [Description("Agglomeration to be used. Skipped will use agglomeration closest to the start point")] string? agglomeration = null,
         [Description("Date to start search in DD.MM.YY format. Omitted will use today as a date")] string? date = null,
         [Description("Hour to start search in HH:MM format. Omitted will use now as hour")] string? hour = null,
         [Description("Mode of routing. Allowed values: conveniet,optimal,hurry. Will use 'optimal' if omitted")] string? type = null,
