@@ -2,4 +2,4 @@
 
 namespace JakDojadeMCP.Server.DTO;
 
-public record GetCitiesResponseDto(IEnumerable<City> Cities);
+public record GetCitiesResponseDto(IEnumerable<JakDojadeCity> Cities);

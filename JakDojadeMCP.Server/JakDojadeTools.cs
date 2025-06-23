@@ -12,7 +12,9 @@ public class JakDojadeTools
     [McpServerTool(Name = "list-cities"), Description("List all cities, their operators and agglomeration names identified by normalizedName")]
     public static async Task<string> ListCitiesAsync(JakDojadeClient client)
     {
-        var cities = await client.GetCitiesAsync();
+        var jdCities = await client.GetCitiesAsync();
+        var cities = jdCities?.Cities.Select(x => new City(x.Name, x.NormalizedName, x.Operators));
+        
         return JsonSerializer.Serialize(cities);
     }
 
